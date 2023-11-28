@@ -1,59 +1,50 @@
-from tkinter import Tk, Canvas, Button, Label
-import time
-import math
+from tkinter import *			
+from time import *
 
-class HorlogeDigitale:
-    def __init__(self, fenetre):
-        self.fenetre = fenetre
-        self.fenetre.title("Horloge Digitale")
-        self.fenetre.geometry("400x400")
-        self.fenetre.resizable(0, 0)
+#variables
+vartype=True
+alarmheure=""
+alarmmin=""
+def alarme():
+    global alarmheure, alarmmin
+    alarmheure= saisieheure.get()
+    alarmmin= saisiemin.get()
+def horaire():
+    if(alarmheure==strftime("%H") and alarmmin==strftime("%M")):
+        alarm=True
+    else:
+        alarm=False
+    if alarm == True:
+        Label_temps.config(text="|| Alarme ||")
+    else:
+        if vartype==True:
+            Label_temps.config(text=strftime("%H:%M:%S"))
+        else:
+            Label_temps.config(text=strftime("%I:%M %p"))
+    Label_temps.after(200, horaire)
+def choix(choisit):
+    global vartype
+    vartype = choisit
 
-        self.canvas = Canvas(self.fenetre, width=400, height=400, bg='white')
-        self.canvas.pack()
 
-        # Créer un cercle autour de l'affichage numérique
-        self.canvas.create_oval(50, 50, 350, 350, outline='black', width=2)
-
-        self.label_heure = Label(self.fenetre, font=('Helvetica', 24), bg='white', fg='black')
-        self.label_heure.place(relx=0.5, rely=0.5, anchor='center')
-
-        self.bouton_quitter = Button(self.fenetre, text='Quitter', command=self.fenetre.quit)
-        self.bouton_quitter.pack()
-
-        self.afficher_heure()
-
-    def afficher_heure(self):
-        temps_actuel = time.localtime()
-        heure = temps_actuel.tm_hour
-        minute = temps_actuel.tm_min
-        seconde = temps_actuel.tm_sec
-
-        texte_heure = "{:02d}:{:02d}:{:02d}".format(heure, minute, seconde)
-        self.label_heure.config(text=texte_heure)
-
-        self.fenetre.after(1000, self.afficher_heure)
-
-if __name__ == "__main__":
-    fenetre = Tk()
-    horloge = HorlogeDigitale(fenetre)
-    fenetre.mainloop()
-
-# Boutons pour régler l'heure
-bouton_heures_plus = Button(app_window, text="+", font=("Boulder", 14, 'bold'), command=lambda: regler_heure("heures", 1))
-bouton_heures_plus.grid(row=1, column=0)
-
-bouton_heures_moins = Button(app_window, text="-", font=("Boulder", 14, 'bold'), command=lambda: regler_heure("heures", -1))
-bouton_heures_moins.grid(row=1, column=2)
-
-bouton_minutes_plus = Button(app_window, text="+", font=("Boulder", 14, 'bold'), command=lambda: regler_heure("minutes", 1))
-bouton_minutes_plus.grid(row=2, column=0)
-
-bouton_minutes_moins = Button(app_window, text="-", font=("Boulder", 14, 'bold'), command=lambda: regler_heure("minutes", -1))
-bouton_minutes_moins.grid(row=2, column=2)
-
-bouton_secondes_plus = Button(app_window, text="+", font=("Boulder", 14, 'bold'), command=lambda: regler_heure("secondes", 1))
-bouton_secondes_plus.grid(row=3, column=0)
-
-bouton_secondes_moins = Button(app_window, text="-", font=("Boulder", 14, 'bold'), command=lambda: regler_heure("secondes", -1))
-bouton_secondes_moins.grid(row=3, column=2)
+fenetre = Tk()
+fenetre.resizable(width=False, height=False) 
+fenetre.geometry("200x100")
+fenetre.configure(background="gray")
+fenetre.title("Horloge")
+Label_temps = Label(fenetre, font=(20), bg='white') 
+Label_temps.grid(row=1, column=1, columnspan=3)
+btn24 = Button(fenetre, text ="form 24h", command = lambda: choix(True))
+btn24.grid(row=2, column=1, columnspan=1)
+btn12 = Button(fenetre, text ="form 12h", command = lambda: choix(False))
+btn12.grid(row=2, column=2, columnspan=1)
+btnalarm = Button(fenetre, text ="set l'alarme", command = lambda: alarme())
+btnalarm.grid(row=2, column=3, columnspan=1)
+saisieheure = Entry(fenetre, bd = 2, width=9, textvariable=alarmheure)
+saisieheure.grid(row=3, column=1)
+Label_alarmhp = Label(fenetre, font=("",8), bg='white',text="Heure | Min") 
+Label_alarmhp.grid(row=3, column=2)
+saisiemin = Entry(fenetre, bd = 2, width=9,textvariable=alarmmin)
+saisiemin.grid(row=3, column=3)
+horaire()
+fenetre.mainloop()
