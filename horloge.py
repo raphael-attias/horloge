@@ -9,7 +9,7 @@ def alarme():
     global alarmheure, alarmmin
     alarmheure= saisieheure.get()
     alarmmin= saisiemin.get()
-def horaire():
+def afficher_heure():
     if(alarmheure==strftime("%H") and alarmmin==strftime("%M")):
         alarm=True
     else:
@@ -21,7 +21,7 @@ def horaire():
             Label_temps.config(text=strftime("%H:%M:%S"))
         else:
             Label_temps.config(text=strftime("%I:%M %p"))
-    Label_temps.after(200, horaire)
+    Label_temps.after(200, afficher_heure)
 def choix(choisit):
     global vartype
     vartype = choisit
@@ -46,5 +46,5 @@ Label_alarmhp = Label(fenetre, font=("",8), bg='white',text="Heure | Min")
 Label_alarmhp.grid(row=3, column=2)
 saisiemin = Entry(fenetre, bd = 2, width=9,textvariable=alarmmin)
 saisiemin.grid(row=3, column=3)
-horaire()
+afficher_heure()
 fenetre.mainloop()
