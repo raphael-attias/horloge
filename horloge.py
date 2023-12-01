@@ -1,3 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Oct  8 01:13:04 2022
+
+@author: Raphael
+"""
+#programme en-tete programme python
+#version python : 
+#auteur : ATTAS Raphaël
+#email : raphael.attias@laplateforme.io
+
+
 from tkinter import *
 from time import *
 
