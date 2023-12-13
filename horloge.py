@@ -13,7 +13,7 @@ Made in Marseille
 from tkinter import *
 from time import *
 
-# variables
+# les variables
 vartype = True
 alarmheure = ""
 alarmmin = ""
@@ -55,6 +55,7 @@ def choix(choisit):
     global vartype
     vartype = choisit
 
+#def fenêtre
 fenetre = Tk()
 fenetre.resizable(width=False, height=False)
 fenetre.geometry("200x150")
@@ -64,6 +65,7 @@ fenetre.title("Horloge")
 Label_temps = Label(fenetre, font=(30), bg='white')
 Label_temps.grid(row=1, column=1, columnspan=3)
 
+# les boutons
 btn24 = Button(fenetre, text="Fonct 24h", command=lambda: choix(True))
 btn24.grid(row=2, column=1, columnspan=1)
 
