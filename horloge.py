@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Made in Marseille
+
+@author: Raphael
+"""
+# email : raphael.attias@laplateforme.io
+
 from tkinter import *
 from time import *
 
