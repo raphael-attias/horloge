@@ -74,8 +74,8 @@ def afficher_heure():
     if heure_manuelle_entry.get():
         afficher_heure_manuelle(heure_manuelle_entry.get())
 
-    fenetre.after(1000, afficher_heure)  # Planifier l'appel à afficher_heure après 1000 ms (1 seconde)
-
+    fenetre.after(1000, afficher_heure)  
+    
 fenetre = Tk()
 fenetre.resizable(width=False, height=False)
 fenetre.geometry("200x200")
