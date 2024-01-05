@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Made in Marseille
-
-@author: Raphael
-"""
-# email : raphael.attias@laplateforme.io
-
 from tkinter import *
 from time import *
 
@@ -14,6 +7,7 @@ alarmheure = ""
 alarmmin = ""
 pause_status = False
 last_known_time = ""
+heure_manuelle = "16:30:00"
 
 def choix(choisit):
     global vartype
@@ -47,16 +41,25 @@ def afficher_heure_tuple(heure_tuple):
         heures_12h_format = heures % 12 if heures % 12 != 0 else 12
         Label_temps.config(text=f"{heures_12h_format:02d}:{minutes:02d}:{secondes:02d} {am_pm}")
 
-def afficher_heure_manuelle(heure_str):
-    heure_tuple = strptime(heure_str, "%H:%M:%S")
-    afficher_heure_tuple(heure_tuple)
+def afficher_heure_manuelle():
+    global heure_manuelle, vartype
+
+    heure_tuple = strptime(heure_manuelle, "%H:%M:%S")
+
+    if vartype:
+        Label_temps.config(text=f"{heure_tuple.tm_hour:02d}:{heure_tuple.tm_min:02d}:{heure_tuple.tm_sec:02d}")
+    else:
+        am_pm = "am" if heure_tuple.tm_hour < 12 else "pm"
+        heures_12h_format = heure_tuple.tm_hour % 12 if heure_tuple.tm_hour % 12 != 0 else 12
+        Label_temps.config(text=f"{heures_12h_format:02d}:{heure_tuple.tm_min:02d}:{heure_tuple.tm_sec:02d} {am_pm}")
 
 def regler_heure_manuelle():
+    global heure_manuelle
     heure_manuelle = heure_manuelle_entry.get()
-    afficher_heure_manuelle(heure_manuelle)
+    afficher_heure_manuelle()
 
 def afficher_heure():
-    global alarmheure, alarmmin, pause_status, last_known_time
+    global alarmheure, alarmmin, pause_status, last_known_time, heure_manuelle
 
     if not pause_status:
         current_time_tuple = localtime()
@@ -66,16 +69,15 @@ def afficher_heure():
             alarm = False
         if alarm:
             Label_temps.config(text="|| Alarme ||")
+        elif heure_manuelle:
+            afficher_heure_manuelle()
         else:
             afficher_heure_tuple(current_time_tuple)
     else:
         afficher_heure_tuple(strptime(last_known_time, "%H:%M:%S"))
 
-    if heure_manuelle_entry.get():
-        afficher_heure_manuelle(heure_manuelle_entry.get())
+    fenetre.after(1000, afficher_heure)
 
-    fenetre.after(1000, afficher_heure)  
-    
 fenetre = Tk()
 fenetre.resizable(width=False, height=False)
 fenetre.geometry("200x200")
